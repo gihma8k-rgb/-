@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لعبة سباق السيارات</title>
+<style>
+body{background:#111;color:white;text-align:center;font-family:Arial}
+canvas{background:#333;border:3px solid white;width:90%;max-width:350px}
+button{padding:15px;margin:8px;font-size:22px;border-radius:12px}
+</style>
+</head>
+<body>
+<h2>🏎️ سباق السرعة</h2>
+<p>النقاط: <span id="score">0</span></p>
+<canvas id="game" width="300" height="450"></canvas>
+<br>
+<button onclick="move(-1)">⬅️</button>
+<button onclick="move(1)">➡️</button>
+<script>
+let c=document.getElementById("game"),x=c.getContext("2d");
+let car=130,enemy=100,ey=-60,score=0,over=false;
+function move(n){if(!over)car=Math.max(10,Math.min(250,car+n*40))}
+function draw(){
+x.clearRect(0,0,300,450);
+x.fillStyle="#555";x.fillRect(65,0,170,450);
+x.fillStyle="white";
+for(let i=0;i<450;i+=90)x.fillRect(147,i,6,45);
+x.fillStyle="#00d5ff";x.fillRect(car,360,30,55);
+x.fillStyle="red";x.fillRect(enemy,ey,30,55);
+ey+=5;
+if(ey>450){ey=-60;enemy=75+Math.random()*145;score++;document.getElementById("score").textContent=score}
+if(ey>310&&ey<415&&Math.abs(car-enemy)<30){over=true;alert("انتهت اللعبة! نقاطك: "+score);return}
+requestAnimationFrame(draw)
+}
+draw();
+</script>
+</body>
+</html>
